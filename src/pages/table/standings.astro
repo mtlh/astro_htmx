@@ -1,0 +1,65 @@
+---
+
+const response = await fetch('https://astro-htmx-ten.vercel.app/api/prem_table');
+const data: standings = await response.json();
+
+interface standings {
+    type: string,
+    group: null,
+    stage: string,
+    table : {
+        won: number,
+        draw: number,
+        form: null,
+        lost: number,
+        team: {
+            id: number,
+            tla: string,
+            name: string,
+            crest:  string,
+            shortName: string,
+        },
+        points: number,
+        goalsFor: number,
+        position: number,
+        playedGames: number,
+        goalsAgainst: number,
+        goalDifference: number
+    }[]
+}
+
+import { Image } from 'astro:assets';
+import premlogo from '../../assets/prem_logo.png';
+
+---
+
+<div class="bg-white text-black">
+    <div class="p-2 flex gap-x-4">
+        <h1 class="w-10 m-auto">Position</h3>
+        <Image src={premlogo} alt="Premier League Emblem" class="w-10 h-10 bg-transparent rounded-sm" />
+        <h3 class="w-10 m-auto">Name</h3>
+        <h3 class="w-10 m-auto"></h3>
+        <h3 class="w-10 m-auto"></h3>
+        <h3 class="w-10 m-auto">Played</h3>
+        <h3 class="w-10 m-auto">Won</h3>
+        <h3 class="w-10 m-auto">Draw</h3>
+        <h3 class="w-10 m-auto">Loss</h3>
+        <h3 class="w-10 m-auto">GD</h3>
+        <h3 class="w-10 m-auto">Points</h3>
+    </div>
+    {data.table.map(pos => (
+        <div class="p-2 flex gap-x-4">
+            <h1 class="w-10 m-auto">{pos.position}</h3>
+            <img src={pos.team.crest} alt="Team Crest" class="w-10 h-10 bg-transparent rounded-sm" />
+            <h3 class="w-10 m-auto">{pos.team.tla}</h3>
+            <h3 class="w-10 m-auto"></h3>
+            <h3 class="w-10 m-auto"></h3>
+            <h3 class="w-10 m-auto">{pos.playedGames}</h3>
+            <h3 class="w-10 m-auto">{pos.won}</h3>
+            <h3 class="w-10 m-auto">{pos.draw}</h3>
+            <h3 class="w-10 m-auto">{pos.lost}</h3>
+            <h3 class="w-10 m-auto">{pos.goalDifference}</h3>
+            <h3 class="w-10 m-auto">{pos.points}</h3>
+        </div>
+    ))}
+</div>
