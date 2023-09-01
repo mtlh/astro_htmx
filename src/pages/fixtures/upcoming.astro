@@ -1,0 +1,39 @@
+---
+
+import type {fixtures, match} from '../../../types/fixtures'
+
+const response = await fetch(Astro.url.origin + '/api/prem_fixtures');
+const data: fixtures = await response.json();
+
+const upcoming: match[] = [];
+data.matches.forEach(game => {
+    if (game.status != "FINISHED") {
+        upcoming.push(game)
+    }
+});
+
+---
+
+<div class="bg-white text-black">
+    {upcoming.map((game): match => (
+        <div class="p-2 flex gap-x-4">
+            <img src={game.homeTeam.crest} alt="Team Crest" class="w-10 h-10 bg-transparent rounded-sm" />
+            <h1 class="w-10 m-auto">{game.homeTeam.tla}</h1>
+            <h6 class="w-10 m-auto">vs</h6>
+            <img src={game.awayTeam.crest} alt="Team Crest" class="w-10 h-10 bg-transparent rounded-sm" />
+            <h1 class="w-10 m-auto">{game.awayTeam.tla}</h1>
+            <p>
+            {new Date(game.utcDate).toLocaleTimeString('en-UK', {
+                hour: '2-digit', // Use '2-digit' to include leading zeros
+                minute: '2-digit', // Include minutes with leading zeros
+                hour12: false // Include AM/PM
+            }) + ' ' + new Date().toLocaleDateString('en-US', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            })}
+            </p>
+            <p>{game.matchday}</p>
+        </div>
+    ))}
+</div>

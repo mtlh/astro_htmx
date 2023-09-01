@@ -1,35 +1,11 @@
 ---
 
-const response = await fetch('https://astro-htmx-ten.vercel.app/api/prem_table');
-const data: standings = await response.json();
-
-interface standings {
-    type: string,
-    group: null,
-    stage: string,
-    table : {
-        won: number,
-        draw: number,
-        form: null,
-        lost: number,
-        team: {
-            id: number,
-            tla: string,
-            name: string,
-            crest:  string,
-            shortName: string,
-        },
-        points: number,
-        goalsFor: number,
-        position: number,
-        playedGames: number,
-        goalsAgainst: number,
-        goalDifference: number
-    }[]
-}
-
 import { Image } from 'astro:assets';
 import premlogo from '../../assets/prem_logo.png';
+import type { standings } from '../../../types/table'
+
+const response = await fetch(Astro.url.origin + '/api/prem_table');
+const data: standings = await response.json();
 
 ---
 
