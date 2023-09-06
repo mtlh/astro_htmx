@@ -1,4 +1,6 @@
 --- 
+export const prerender = true;
+
 interface Props {
 	title: string;
 }
@@ -20,25 +22,20 @@ import premlogo from '../assets/prem_logo.png';
 		<script src="https://unpkg.com/htmx.org@1.9.4"></script>
 	</head>
 	<body class="lg:max-w-6xl md:max-w-2xl max-w-xl m-auto bg-gray-950 text-white text-md">
-		<nav class="grid grid-cols-2 my-2 bg-gray-900 p-4 rounded-sm">
-			<div class="">
+		<nav class="grid grid-cols-3 my-2 bg-gray-900 p-4 rounded-sm">
+			<div class="col-span-2">
 				<header class="md:text-4xl text-xl font-sans flex gap-x-6">
 					<Image src={premlogo} alt="Premier League Emblem"  class={"w-12"} />
 					<h2 class="my-auto"><a href="/">premPredict</a></h2>
 				</header>
 			</div>
-			<div class="flex gap-x-2 px-20 my-auto md:text-lg text-md">
-				<p><a href="/conditions">Dashboard</a></p>
-				<p><a href="/conditions">Predict</a></p>
-				<p><a href="/results">Results</a></p>
-				<p><a href="/fixtures">Fixtures</a></p>
+			<div class="flex gap-x-6 lg:px-32 my-auto md:text-lg text-md">
+				<p><a href="/predict">Predict</a></p>
 				<p><a href="/table">Table</a></p>
 				<p><a href="/profile">Profile</a></p>
 			</div>
 		</nav>
-		<div transition:name="main" transition:animate="slide">
-			<slot />
-		</div>
+		<slot />
 	</body>
 </html>
 <style is:global>

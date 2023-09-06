@@ -3,9 +3,23 @@
 import { Image } from 'astro:assets';
 import premlogo from '../../assets/prem_logo.png';
 import type { standings } from '../../../types/table'
+import { supabase } from '../../../functions/supabase';
 
-const response = await fetch(Astro.url.origin + '/api/prem_table');
-const data: standings = await response.json();
+const { data } = await supabase.from("api_responses").select("footballstanding_response").eq("id", 1)
+    
+let json_res: standings = {
+    type: "",
+    group: null,
+    stage: "",
+    table: []
+};
+
+if (data) {
+    json_res = data[0].footballstanding_response.standings[0]
+}
+    
+// const response = await fetch(Astro.url.origin + '/api/prem_table');
+// const data: standings = await response.json();
 
 ---
 
@@ -23,7 +37,7 @@ const data: standings = await response.json();
         <h3 class="w-10 m-auto">GD</h3>
         <h3 class="w-10 m-auto">Points</h3>
     </div>
-    {data.table.map(pos => (
+    {json_res.table.map(pos => (
         <div class="p-2 flex gap-x-4">
             <h1 class="w-10 m-auto">{pos.position}</h3>
             <img src={pos.team.crest} alt="Team Crest" class="w-10 h-10 bg-transparent rounded-sm" />

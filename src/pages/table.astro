@@ -1,11 +1,18 @@
 ---
+export const prerender = true;
+
 import Spinner from '../components/Spinner.astro';
 import Layout from '../layouts/Layout.astro';
+
+let baseurl = "https://astro-htmx-ten.vercel.app"
+if (!import.meta.env.PROD) {
+    baseurl = "http://localhost:4321"
+}
 ---
 
 <Layout title="PremPredict - Table">
 	<div hx-on="htmx:configRequest: event.detail.headers=''; event.detail.headers['Content-Type']='application/x-www-form-urlencoded; charset=UTF-8'"
-        hx-get=`${Astro.url.origin}/table/standings`
+        hx-get=`${baseurl}/table/standings`
         hx-trigger="load delay:0ms">
         <Spinner />
     </div>
