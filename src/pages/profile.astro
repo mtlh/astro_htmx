@@ -1,0 +1,11 @@
+---
+import { checkAuth } from '../../functions/logins';
+import Layout from '../layouts/Layout.astro';
+
+const usersession = await checkAuth();
+
+---
+
+<Layout title="PremPredict - Profile">
+    <p>{usersession.user?.email}</p>
+</Layout>
